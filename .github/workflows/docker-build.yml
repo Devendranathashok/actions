@@ -1,0 +1,14 @@
+name: docker-build-push
+on: [push, workflow_dispatch]
+jobs: 
+  docker-build-push:
+    runs-on: docker_runner
+    steps:
+    - name: docker login
+      run: docker login -u $DOCKER_USER -p $DOCKER_PWD
+    - name: docker build
+      run: docker build -f $Dockerfile -t $DOCKER_USER:${{ steps.metadata.outputs.tags }}
+    - name: docker push 
+      run: docker push $DOCKER_USER:${{ steps.metadata.outputs.tags }}
+      
+  
